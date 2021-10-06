@@ -1,22 +1,32 @@
-const http = require('http');
-const express = require('express');
-const bodyparser = require("body-parser");
+const http = require("http");
+const express = require("express");
+const carRouter = require("./routes/car");
+
 const app = express();
 
+app.use((req, res, next) => {
+  if (
+    req.originalUrl.startsWith("/uploads") ||
+    req.originalUrl.startsWith("/api/status")
+  ) {
+    next();
+  } else {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET, PUT,POST,DELETE,PATCH");
+    res.header(
+      "Access-Control-Allow-Headers",
+      "X-PINGOTHER,Content-Type,Authorization"
+    );
 
-const server = http.createServer((req,res)=>{
-    console.log("");
-    res.end('Hello guys');
+   
+      next();
+    
+  }
 });
+app.use("/api/car", carRouter);
 
-const PORT = process.env.PORT  || 8080;
+const PORT = process.env.PORT || 8080;
 
-server.listen(PORT, ()=>{
-    console.log('running...')
-})
-
-app.use(bodyparser.json({ limit: "50mb" }));
-
-const carRoute = require("./routes/car");
-
-app.use("/api/car", carRoute);
+app.listen(PORT, () => {
+  console.log("running...");
+});
