@@ -1,6 +1,8 @@
 const express = require("express");
 const carRouter = require("./routes/car");
+const userRouter = require("./routes/user");
 const bodyparser = require("body-parser");
+const cors = require("cors");
 
 const app = express();
 app.use(
@@ -22,8 +24,11 @@ app.use((req, res, next) => {
   );
 
   next();
+
+
 });
 app.use("/api/car", carRouter);
+app.use("/api/user", userRouter);
 
 const PORT = 3000;
 const HOST = "0.0.0.0";
