@@ -18,15 +18,11 @@ app.use((req, res, next) => {
       "X-PINGOTHER,Content-Type,Authorization"
     );
 
-   
-      next();
-    
+    next();
   }
 });
 app.use("/api/car", carRouter);
 
-const PORT = process.env.PORT || 8080;
-
-app.listen(PORT, () => {
-  console.log("running...");
-});
+const PORT = 3000;
+const HOST = "0.0.0.0";
+app.listen(PORT, HOST);
